@@ -33,6 +33,7 @@
             <!-- Header Section -->
             <div class="flex justify-between items-center mb-6 border-b pb-4">
                 <div>
+                    {{-- @dd($response) --}}
                     <h1 class="text-2xl font-bold text-gray-800">{{ $response->report->user->email }}</h1>
                     <p class="text-gray-600 mt-1">
                         {{ $response->created_at->translatedFormat('d F Y') }}
@@ -84,7 +85,13 @@
                                         {{ $progress->created_at->format('d M Y, H:i') }}
                                     </time>
                                     <p class="text-base font-normal ">
-                                        {{ $histories['response'] ?? 'No response available' }}
+                                        <form action="{{ route('destroy.response', $progress->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit">
+                                            {{ $histories['response'] ?? 'No response available' }}
+                                        </button>
+                                        </form>
                                     </p>
                                 </li>
                             </ol>
@@ -99,12 +106,18 @@
 
             <!-- Actions -->
             <div class="flex justify-end space-x-4 mt-6">
-                <button class="bg-green-700 text-white px-4 py-2 rounded hover:bg-green-800 transition">Nyatakan
-                    Selesai</button>
+                @if ($response->response_status != 'DONE')
+                <form action="{{route('update.response', $responseId)}}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <button class="bg-green-700 text-white px-4 py-2 rounded hover:bg-green-800 transition" type="submit">Nyatakan
+                        Selesai</button>
+                </form>
                 <button onclick="showProgressModal()"
                     class="bg-blue-700 text-white px-4 py-2 rounded hover:bg-blue-800 transition">
                     Tambah Progres
                 </button>
+                @endif
             </div>
         </div>
     </main>

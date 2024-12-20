@@ -28,6 +28,6 @@ class CommentController extends Controller
             'comment' => $request->comment,
         ]);
 
-        return redirect()->back()->with('success', 'Komentar berhasil ditambahkan!');
+        return redirect()->back();
     }
 }

@@ -77,8 +77,15 @@ class ResponseProgressController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ResponseProgress $responseProgress)
+    public function destroy($id)
     {
-        //
+        // Temukan data berdasarkan ID atau gagal jika tidak ditemukan
+    $responseProgress = ResponseProgress::findOrFail($id);
+
+    // Hapus data yang ditemukan
+    $responseProgress->delete();
+
+    // Berikan respon balik (opsional, untuk memberi informasi kepada pengguna)
+    return redirect()->back()->with('success', 'Response deleted successfully.');
     }
 }

@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\HeadStaff;
+use App\Models\Report;
+use App\Models\Response;
+use App\Models\StaffProvince;
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Auth;
 
 class HeadStaffController extends Controller
 {
@@ -14,7 +17,10 @@ class HeadStaffController extends Controller
      */
     public function index()
     {
-        return view('head.index');
+        $report = Report::count();
+        $response = Response::count();
+
+        return view('head.index', compact('report', 'response'));
     }
 
     /**
@@ -26,9 +32,11 @@ class HeadStaffController extends Controller
     }
     public function user()
     {
-        return view('head.user');
+        StaffProvince::where('user_id', auth::user()->id);
+        $data = User::where('role', 'STAFF')->get();
+        return view('head.user', compact('data'));
     }
-    
+
     /**
      * Store a newly created resource in storage.
      */
@@ -36,12 +44,12 @@ class HeadStaffController extends Controller
     {
         $request->validate([
             'email' => 'required',
-            'password' => 'required'
+            'password' => 'required',
         ]);
         User::create([
             'email' => $request->email,
             'password' => bcrypt($request->password),
-            'role' => 'STAFF'
+            'role' => 'STAFF',
         ]);
         return redirect()->route('user');
     }
@@ -73,8 +81,9 @@ class HeadStaffController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(HeadStaff $headStaff)
+    public function destroy(HeadStaff $headStaff, $id)
     {
-        //
+        User::where('id', $id)->delete();
+        return redirect()->back();
     }
 }

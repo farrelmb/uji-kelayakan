@@ -1,4 +1,3 @@
-
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -13,15 +12,23 @@
 </head>
 
 <body class="bg-gray-100">
-    <header class="bg-white shadow-sm py-4">
-        <div class="container mx-auto flex justify-between items-center px-4">
-            <div class="flex items-center space-x-2">
-                <span class="text-xl font-semibold">
-                    Pengaduan
-                </span>
+    <nav class="p-4" style="background-color: green;">
+        <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+            <div class="relative flex items-center justify-between h-16">
+                <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
+                    <!-- Mobile menu button-->
+                </div>
+                <div class="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
+                    <a href="#" class="text-white font-bold text-xl">Pengaduan</a>
+                </div>
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    @method('POST')
+                    <button type="submit" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full">Logout</button>
+                </form>
             </div>
         </div>
-    </header>
+    </nav>
     <main class="container mx-auto mt-8 px-4 m-5">
         <div class="bg-white shadow rounded-lg p-4 m-5">
             <div class="flex justify-between items-center mb-4">
@@ -30,10 +37,12 @@
                 </h2>
                 <div class="flex justify-between items-center p-4">
                     <div></div>
-                    <button class="bg-green-700 text-white px-4 py-2 rounded-md flex items-center">
-                        Export (.xlsx)
-                        <i class="fas fa-caret-down ml-2"></i>
-                    </button>
+                    <a href="{{ route('excel') }}">
+                        <button class="bg-green-700 text-white px-4 py-2 rounded-md flex items-center">
+                            Export (.xlsx)
+                            <i class="fas fa-caret-down ml-2"></i>
+                        </button>
+                    </a>
                 </div>
             </div>
             <table class="min-w-full bg-white">

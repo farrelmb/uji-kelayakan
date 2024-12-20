@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @vite('resources/css/app.css')
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
     <title>Laravel App</title>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -67,12 +69,20 @@
        @endif
     </a>
 
-    @if (auth()->user()->role != 'HEAD_STAFF')
+    {{-- @if (auth()->user()->role != 'HEAD_STAFF')
     <a href="{{ route('index.reports.me') }}"
         class="flex items-center justify-center w-16 h-16 text-white bg-teal-600 hover:bg-teal-700 rounded-full shadow-lg">
         <i class="fa fa-list" aria-hidden="true"></i>
     </a>
-    @endif
+    @endif --}}
+    <a href="{{ route(auth()->user()->role == 'HEAD_STAFF' ? 'head.staff' : 'index.reports.me') }}"
+        class="flex items-center justify-center w-16 h-16 text-white bg-teal-600 hover:bg-teal-700 rounded-full shadow-lg">
+       @if (auth()->user()->role != 'HEAD_STAFF')
+       <i class="fa fa-list" aria-hidden="true"></i>
+       @else
+       <i class="fas fa-chart-bar"></i>
+       @endif
+    </a>
 
 </div>
 <script>

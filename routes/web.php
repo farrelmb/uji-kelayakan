@@ -14,8 +14,6 @@ Route::get('/article',[AuthController::class,'article'])->name('article');
 Route::get('/report/article/{id}',[AuthController::class,'articleId'])->name('articleId');
 Route::get('/search/articles', [AuthController::class, 'article'])->name('articles.search');
 
-
-
 Route::post('/loginOrRegister',[AuthController::class,'loginOrRegister'])->name('loginOrRegister');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
@@ -36,12 +34,8 @@ Route::get('/headStaff', [HeadStaffController::class, 'index'])->name('head.staf
 Route::get('/headStaff/user', [HeadStaffController::class, 'user'])->name('user');
 Route::get('/headStaff/create', [HeadStaffController::class, 'create'])->name('create');
 Route::post('/headStaff/create/submit', [HeadStaffController::class, 'store'])->name('store.alex');
+Route::delete('/headStaff/user/{id}', [HeadStaffController::class, 'destroy'])->name('destroy.user');
 
-
-
-
-
-
-
-
-
+Route::delete('/response/report/{id}', [ResponseProgressController::class, 'destroy'])->name('destroy.response');
+Route::put('/response/{id}', [ResponseController::class, 'update'])->name('update.response');
+Route::get('/excel/export', [ReportController::class, 'export'])->name('excel');

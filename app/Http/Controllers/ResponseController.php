@@ -9,14 +9,6 @@ use App\Models\ResponseProgress;
 
 class ResponseController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
     public function showReportResponse(Request $request, $id)
 {
     // Validasi input
@@ -41,59 +33,20 @@ class ResponseController extends Controller
 
 public function reportResponseIndex($id)
 {
-    $response = Response::with('report')->find($id);
+    $response = Response::with('report')->where('report_id', $id)->first();
     $responseProgress = ResponseProgress::where('report_id', $id)->get();
+    // dd($response->id);
+    $responseId = $response->id;
 
-    return view('response.index', compact('response', 'responseProgress'));
+    return view('response.index', compact('response', 'responseProgress', 'responseId'));
 }
-
-
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+   
+    public function update(Request $request, $id)
     {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Response $response)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Response $response)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Response $response)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Response $response)
-    {
-        //
+        $update = Response::where('id', $id)->first();
+        $update->update([
+            'response_status' => 'DONE'
+        ]);
+        return redirect()->back();
     }
 }

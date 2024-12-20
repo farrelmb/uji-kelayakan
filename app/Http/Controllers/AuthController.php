@@ -45,11 +45,11 @@ class AuthController extends Controller
                 // Redirect berdasarkan role
                 switch (Auth::user()->role) {
                     case 'GUEST':
-                        return redirect()->route('article')->with('success', 'login telah berhasil!');
+                        return redirect()->route('article');
                     case 'STAFF':
-                        return redirect()->route('report.staff')->with('success', 'login telah berhasil!');
+                        return redirect()->route('report.staff');
                     case 'HEAD_STAFF':
-                        return redirect()->route('head.staff')->with('success', 'login telah berhasil!');
+                        return redirect()->route('head.staff');
                     default:
                         Auth::logout(); // Logout jika role tidak dikenali
                         return redirect()->route('login')->with('error', 'Role tidak dikenali.');
@@ -70,7 +70,7 @@ class AuthController extends Controller
             Auth::login($newUser);
 
             // Redirect ke article setelah pendaftaran
-            return redirect()->route('article')->with('success', 'login telah berhasil.');
+            return redirect()->route('article');
         }
     }
 
@@ -80,7 +80,7 @@ class AuthController extends Controller
     auth()->logout();
 
     // Mengarahkan ke halaman login
-    return redirect()->route('index')->with('success', 'Anda telah berhasil logout.');
+    return redirect()->route('index');
 }
 
 
@@ -113,6 +113,6 @@ public function destroy($id)
     $report->delete();
 
     // Kembali ke halaman sebelumnya dengan pesan sukses
-    return redirect()->route('articles.index')->with('success', 'Artikel berhasil dihapus.');
+    return redirect()->route('articles.index');
 }
 }

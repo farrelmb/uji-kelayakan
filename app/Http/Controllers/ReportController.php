@@ -6,6 +6,8 @@ use App\Models\Report;
 use Illuminate\Http\Request;
 use App\Models\ResponseProgress;
 use Illuminate\Support\Facades\Auth;
+use App\Exports\ReportsExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ReportController extends Controller
 {
@@ -27,6 +29,7 @@ class ReportController extends Controller
         $reports = Report::orderBy($sortBy, $order)->get();
          return view('reports.staff', compact('reports', 'sortBy', 'order'));
     }
+
 
     public function vote(Request $request, $id)
     {
@@ -98,41 +101,15 @@ class ReportController extends Controller
         'image' => $request->file('image') ? $request->file('image')->store('reports', 'public') : null,
     ]);
 
-    return redirect()->route('index.reports.me')->with('success', 'Laporan berhasil dibuat!');
+    return redirect()->route('index.reports.me');
 }
-
-
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Report $report)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Report $report)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Report $report)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Report $report)
     {
         $report->delete();
-        return redirect()->back()->with('success', 'laporan berhasil dihapus!');
+        return redirect()->back();;
+    }
+    public function export() 
+    {
+        return Excel::download(new ReportsExport, 'report.xlsx');
     }
 }
